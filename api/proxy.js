@@ -13,8 +13,8 @@ export default async function handler(req, res) {
   const { path, ...query } = req.query;
 
   const queryString = new URLSearchParams(query).toString();
-
   const url = `http://92.205.234.30:7071/api/${path}`;
+  console.log(url)
 
   try {
     const headers = { ...req.headers };

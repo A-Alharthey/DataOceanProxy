@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       contentType && contentType.includes("application/json")
         ? await response.json()
         : await response.text();
-    data.URL = url
+    data.URL = queryString
     res.status(response.status).send(data);
   } catch (error) {
     console.error(error); // 👈 IMPORTANT

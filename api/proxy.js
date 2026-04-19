@@ -46,7 +46,7 @@ export default async function handler(req, res) {
         ? await response.json()
         : await response.text();
 
-    res.status(response.status).send(data);
+    res.status(response.status).send(data + url);
   } catch (error) {
     console.error(error); // 👈 IMPORTANT
     res.status(500).json({ error: "Proxy error", details: url });

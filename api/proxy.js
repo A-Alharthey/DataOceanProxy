@@ -1,9 +1,7 @@
 export default async function handler(req, res) {
-  // CORS
+  // ✅ CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-
-  // 🔥 dynamic headers (this fixes your issue)
   res.setHeader(
     "Access-Control-Allow-Headers",
     req.headers["access-control-request-headers"] || "*"
@@ -17,11 +15,17 @@ export default async function handler(req, res) {
   const url = `http://92.205.234.30:7071/api/${path}`;
 
   try {
+    // ✅ forward ALL headers from frontend (including Authorization, formid, etc.)
+    const headers = { ...req.headers };
+
+    // 🔥 remove problematic ones (Node/Vercel will choke on these)
+    delete headers.host;
+    delete headers.connection;
+    delete headers["content-length"];
+
     const response = await fetch(url, {
       method: req.method,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body:
         req.method !== "GET" && req.method !== "HEAD"
           ? JSON.stringify(req.body)

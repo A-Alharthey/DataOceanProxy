@@ -1,13 +1,14 @@
 export default async function handler(req, res) {
-  // ✅ CORS headers (fixed)
+  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+
+  // 🔥 dynamic headers (this fixes your issue)
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Requested-With"
+    req.headers["access-control-request-headers"] || "*"
   );
-  res.setHeader("formid", "903005")
-  // ✅ Handle preflight properly
+
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }

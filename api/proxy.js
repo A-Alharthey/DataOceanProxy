@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   const path = req.query.path || "";
-
+  console.log("test")
   const url = `http://92.205.234.30:7071/api/${path}`;
 
   try {

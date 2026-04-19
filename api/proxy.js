@@ -49,6 +49,6 @@ export default async function handler(req, res) {
     res.status(response.status).send(data);
   } catch (error) {
     console.error(error); // 👈 IMPORTANT
-    res.status(500).json({ error: "Proxy error", details: error.message });
+    res.status(500).json({ error: "Proxy error", details: error.message, urlUsed:url });
   }
 }

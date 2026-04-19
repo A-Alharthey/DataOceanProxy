@@ -1,6 +1,14 @@
 export default async function handler(req, res) {
+  // Allow CORS
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   const path = req.query.path || "";
-  console.log("test")
   const url = `http://92.205.234.30:7071/api/${path}`;
 
   try {
@@ -9,16 +17,18 @@ export default async function handler(req, res) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: req.method !== "GET" && req.method !== "HEAD"
-        ? JSON.stringify(req.body)
-        : undefined,
+      body:
+        req.method !== "GET" && req.method !== "HEAD"
+          ? JSON.stringify(req.body)
+          : undefined,
     });
 
     const contentType = response.headers.get("content-type");
 
-    const data = contentType && contentType.includes("application/json")
-      ? await response.json()
-      : await response.text();
+    const data =
+      contentType && contentType.includes("application/json")
+        ? await response.json()
+        : await response.text();
 
     res.status(response.status).send(data);
   } catch (error) {

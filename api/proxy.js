@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, X-Requested-With"
   );
-
+  res.setHeader("formid", "903005")
   // ✅ Handle preflight properly
   if (req.method === "OPTIONS") {
     return res.status(200).end();
